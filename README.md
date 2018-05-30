@@ -1,5 +1,5 @@
 # Portfolio - Faq-O-Clock
-[> Page détaillé de l'exercice sur mon site <](neo-explorer.com/portfolio/faqoclock "Page de l'exercice sur mon site")
+[> Page détaillé de l'exercice sur mon site <](http://neo-explorer.com/portfolio/faqoclock "Page de l'exercice sur mon site")
 
 Ce site web réalisé en une quarantaine d'heures est le résultat de trois semaines d'apprentissage sur le framework Symfony. Basé sur le modèle de Quora/StackOverflow, il s'agissait de coder une application de type questions/réponses.
 
