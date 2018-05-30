@@ -1,0 +1,107 @@
+body {
+  font-family: 'Varela Round', sans-serif;
+  margin-top: 20px;
+  background-color: whitesmoke;
+}
+
+.navbar,
+.admin-navbar {
+  font-family: 'Raleway', sans-serif;
+  background-color: whitesmoke;
+}
+
+
+/* Questions */
+.question-container:not(:first-child) {
+  margin-top: 20px;
+}
+.question-container p {
+  margin: 0;
+}
+p.question-title {
+  font-size: 1.4rem;
+}
+p.question-created {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: dimgray;
+}
+p.question-created .username {
+  font-size: 0.9rem;
+  color: black;
+}
+p.question-body {
+  margin-top: 20px;
+  font-size: 1.05rem;
+}
+p.question-answer-count {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: dimgray;
+}
+p.question-vote {
+  margin-top: 10px;
+}
+div.question-tag {
+  margin-top: 20px;
+}
+
+
+/* Pagination */
+div.pagination {
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+div.pagination a {
+  color: black;
+  text-shadow: 0 0 4px lightgray;
+  margin: 0 6px;
+}
+div.pagination a.current-page {
+  color: deepskyblue;
+  font-size: 1.2em;
+}
+div.pagination i {
+  color: white;
+  text-shadow: 0 0 4px black, 0 0 4px black, 0 0 4px black;
+}
+div.pagination i:first-child {
+  margin-right: 12px;
+}
+div.pagination i:last-child {
+  margin-left: 12px;
+}
+
+
+/* Answers */
+.answer-main-title {
+  margin-top: 40px;
+}
+.answer-container p {
+  margin: 0;
+}
+p.answer-created {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: dimgray;
+}
+p.answer-created .username {
+  font-size: 0.9rem;
+  color: black;
+}
+
+
+/* User profile */
+table.profile-data-table,
+table.profile-data-table th,
+table.profile-data-table td {
+  margin: 0;
+  padding: 0;
+  height: 40px;
+  border: none;
+}
+table.profile-data-table th {
+  text-transform: capitalize;
+}

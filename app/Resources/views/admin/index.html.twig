@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acceuil{% endblock %}
+
+{% block body %}
+  <ul class="list-group list-group-flush">
+    <button type="button" class="list-group-item list-group-item-action">
+      <a href="{{ path('admin_user_index') }}">User</a>
+    </button>
+    <button type="button" class="list-group-item list-group-item-action">
+      <a href="{{ path('admin_role_index') }}">Role</a>
+    </button>
+    <button type="button" class="list-group-item list-group-item-action">
+      <a href="{{ path('admin_question_index') }}">Question</a>
+    </button>
+    <button type="button" class="list-group-item list-group-item-action">
+      <a href="{{ path('admin_answer_index') }}">Answer</a>
+    </button>
+    <button type="button" class="list-group-item list-group-item-action">
+      <a href="{{ path('admin_tag_index') }}">Tag</a>
+    </button>
+  </ul>
+{% endblock %}

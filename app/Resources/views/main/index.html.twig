@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% set nbrPage = questionCount / 10 + (questionCount % 10 > 0 ? 1 : 0) %}
+
+{% block body %}
+  <a href="{{ path('homepage') }}">
+    <img src="{{ asset('symfo_eval_faqoclock_logo/symfo_eval_faqoclock_logo-2_transparent.png')}}" alt="logo site" style="width: 100%; margin-left: -25px;">
+  </a>
+
+  {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+  <div class="text-center">
+    <a href="{{ path('question_new') }}" class="btn btn-info">Ask your question</a>
+  </div>
+  {% endif %}
+
+  <div class="mt-4">
+    {% include ('partials/_pagination.html.twig') %}
+  </div>
+
+  <hr class="mb-4">
+  {% for question in questions %}
+    <div class="question-container">
+      <p class="question-title">
+        <a href="{{ path('question_show', {'id': question.id}) }}">{{ question.title }}</a>
+        <span class="question-validated badge badge-{{ question.validatedAnswer is not null ? 'success' : 'danger' }}">
+          {{ question.validatedAnswer is not null ? 'resolved' : 'pending' }}
+        </span>
+      </p>
+
+      <p class="question-created">
+        created by <strong class="username">{{ question.author.username }}</strong> at {{ question.createdAt|date("d/m/Y h:i:s") }}
+      </p>
+
+      <p class="question-answer-count">
+        answers : {{ question.answers|length }}
+      </p>
+
+      <p class="question-body">
+        {% if question.body|length > 200 %}
+          {{ question.body[:200] ~ '...' }}
+        {% else %}
+          {{ question.body }}
+        {% endif %}
+      </p>
+
+      <div class="question-tag">
+        {% for tag in question.tags %}
+          <a href="{{ path('question_by_tag', {'slug': tag.slug}) }}">
+            <span class="badge badge-secondary">{{ tag.title }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+    <hr class="my-4">
+  {% endfor %}
+
+  {% include ('partials/_pagination.html.twig') %}
+{% endblock %}

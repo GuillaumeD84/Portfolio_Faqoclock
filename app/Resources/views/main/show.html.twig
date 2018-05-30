@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Question{% endblock %}
+
+{% block body %}
+  <div class="flash-messages mt-2">
+    {% include 'partials/_flash_messages.html.twig' %}
+  </div>
+  <div class="question-container mt-5">
+    <p class="question-title">
+      {{ question.title }}
+      <span class="question-validated badge badge-{{ question.validatedAnswer is not null ? 'success' : 'danger' }}">
+        {{ question.validatedAnswer is not null ? 'resolved' : 'pending' }}
+      </span>
+    </p>
+
+    <p class="question-created">
+      created by <strong class="username">{{ question.author.username }}</strong> at {{ question.createdAt|date("d/m/Y h:i:s") }}
+    </p>
+
+    <p class="question-answer-count">
+      answers : {{ question.answers|length }}
+    </p>
+
+    <!-- On créé une variable qui permet de déterminer si l'utilisateur à déjà voté pour la question -->
+    {% set alreadyVoted = false %}
+    {% for user in question.voteUsers if user == app.user %}
+        {% set alreadyVoted = true %}
+    {% endfor %}
+
+    <p class="question-vote">
+      {% if alreadyVoted == false %}
+        votes : <span class="badge badge-primary">{{ question.voteUsers|length }}</span>
+        {% if not (question.author == app.user) and is_granted('IS_AUTHENTICATED_FULLY') %}
+          <span class="addQuestionVoteBtn badge badge-warning" data-vote-url="{{ path('question_addvote', {'id': question.id}) }}">+</span>
+        {% endif %}
+      {% else %}
+        votes : <span class="badge badge-success">{{ question.voteUsers|length }}</span>
+      {% endif %}
+    </p>
+
+    <p class="question-body">
+      {{ question.body }}
+    </p>
+
+    <div class="question-tag">
+      {% for tag in question.tags %}
+        <a href="{{ path('question_by_tag', {'slug': tag.slug}) }}">
+          <span class="badge badge-secondary">{{ tag.title }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+  <hr class="my-5">
+
+  {% if question.answers|length > 0 %}
+    <h3 class="answer-main-title">Answers ({{ question.answers|length }})</h3>
+    {% for answer in question.answers %}
+    <div class="answer-container row">
+      <div class="answer-vote-container col-2">
+
+        <!-- On créé une variable qui permet de déterminer si l'utilisateur à déjà voté pour la réponse -->
+        {% set alreadyVoted = false %}
+        {% for user in answer.voteUsers if user == app.user %}
+            {% set alreadyVoted = true %}
+        {% endfor %}
+
+        <p class="answer-vote">
+          {% if alreadyVoted == false %}
+            votes : <span class="badge badge-primary">{{ answer.voteUsers|length }}</span>
+            {% if not (answer.author == app.user) and is_granted('IS_AUTHENTICATED_FULLY') %}
+              <span class="addAnswerVoteBtn badge badge-warning" data-vote-url="{{ path('answer_addvote', {'id': answer.id}) }}">+</span>
+            {% endif %}
+          {% else %}
+            votes : <span class="badge badge-success">{{ answer.voteUsers|length }}</span>
+          {% endif %}
+        </p>
+
+        {% if answer == question.validatedAnswer %}
+          <p class="answer-validated">
+            <span class="answer-validated badge badge-success">
+              validated
+            </span>
+          </p>
+        {% endif %}
+      </div>
+
+      <div class="answer-container-data col-10">
+        <p class="answer-body">
+          {{ answer.body }}
+        </p>
+
+        <p class="answer-created">
+          by <strong class="username">{{ answer.author.username }}</strong> at {{ answer.createdAt|date("d/m/Y h:i:s") }}
+        </p>
+      </div>
+    </div>
+    <hr>
+    {% endfor %}
+  {% endif %}
+  {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <div class="col-10 offset-1">
+      <h3>Your answer</h3>
+      {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Submit your answer" class="btn btn-primary" />
+      {{ form_end(form) }}
+    </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,38 @@
+<div class="pagination">
+  <!-- Left arrow -->
+  {% if app.request.get('_route') != 'homepage' %}
+    {% if app.request.get('_route_params').number == 2 %}
+      <a href="{{ path('homepage') }}">
+        <i class="fa fa-arrow-left"></i>
+      </a>
+    {% else %}
+      <a href="{{ path('page_list', {'number': app.request.get('_route_params').number-1}) }}">
+        <i class="fa fa-arrow-left"></i>
+      </a>
+    {% endif %}
+  {% endif %}
+
+  <!-- Pagination -->
+  {% for item in 1..nbrPage %}
+    {% if loop.index == 1 %}
+      <a href="{{ path('homepage') }}" class="{{ app.request.get('_route') == 'homepage' ? 'current-page' }}">1</a>
+    {% else %}
+      {% if app.request.get('_route_params').number is defined and app.request.get('_route_params').number == loop.index %}
+        <a href="{{ path('page_list', {'number': loop.index}) }}" class="current-page">{{ loop.index }}</a>
+      {% else %}
+        <a href="{{ path('page_list', {'number': loop.index}) }}">{{ loop.index }}</a>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  <!-- Right arrow -->
+  {% if app.request.get('_route') == 'homepage' %}
+      <a href="{{ path('page_list', {'number': 2}) }}">
+        <i class="fa fa-arrow-right"></i>
+      </a>
+  {% elseif app.request.get('_route_params').number != nbrPage %}
+    <a href="{{ path('page_list', {'number': app.request.get('_route_params').number+1}) }}">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  {% endif %}
+</div>

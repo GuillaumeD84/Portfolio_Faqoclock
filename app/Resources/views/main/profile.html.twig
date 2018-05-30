@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ app.user.username|capitalize }}{% endblock %}
+
+{% block body %}
+  <h1 class="text-center">My profile</h1>
+
+  <h3>Profil data</h3>
+  <table class="profile-data-table table">
+    <tbody>
+      <tr>
+        <th>username</th>
+        <td><span>{{ app.user.username }}</span></td>
+      </tr>
+      <tr>
+        <th>
+          email
+          <a href="#" title="change your email">
+            <span class="badge badge-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></span>
+          </a>
+        </th>
+        <td><span>{{ app.user.email }}</span></p></td>
+      </tr>
+      <tr>
+        <th>
+          password
+          <a href="#" title="change your password">
+            <span class="badge badge-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></span>
+          </a>
+        </th>
+        <td><span>&bull;&bull;&bull;&bull;&bull;&bull;</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="mt-5">My questions</h3>
+  <table class="my-questions-table table">
+    <thead>
+      <th>Link</th>
+      <th>Title</th>
+    </thead>
+    <tbody>
+      {% for question in app.user.questions %}
+      <tr>
+        <td>
+          <a href="{{ path('question_show', { 'id': question.id }) }}" title="show">
+            <span class="badge badge-secondary"><i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></span>
+          </a>
+        </td>
+        <td>{{ question.title }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3 class="mt-5">My answers</h3>
+  <table class="my-answers-table table">
+    <thead>
+      <th>Link</th>
+      <th>Content</th>
+    </thead>
+    <tbody>
+      {% for answer in app.user.answers %}
+      <tr>
+        <td>
+          <a href="{{ path('question_show', { 'id': answer.id }) }}" title="show">
+            <span class="badge badge-secondary"><i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></span>
+          </a>
+        </td>
+        <td>{{ answer.body }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

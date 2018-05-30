@@ -1,0 +1,19 @@
+{% block extends %}
+{{ "{% extends 'base.html.twig' %}" }}
+{% endblock extends %}
+
+{{ "{% block title %}" }}{{ entity_singularized|capitalize }} edit{% if 'admin' in route_name_prefix %} [admin]{% endif %}{{ "{% endblock %}" }}
+
+{% block body %}
+{{ "{% block body %}" }}
+    <h1 class="font-weight-bold text-center bg-dark text-white rounded mb-3 py-2">{{ entity_singularized|capitalize }} edit (id: {{ '{{ ' ~ entity_singularized ~ '.id }}' }})</h1>
+
+    {{ '{{ form_start(edit_form) }}' }}
+        {{ '{{ form_widget(edit_form) }}' }}
+        <input class="btn btn-warning" type="submit" value="Edit">
+    {{ '{{ form_end(edit_form) }}' }}
+
+{% set hide_edit, hide_delete = true, false %}
+{{ include('crud/views/others/record_actions.html.twig.twig') -}}
+{{ "{% endblock %}" }}
+{% endblock body %}

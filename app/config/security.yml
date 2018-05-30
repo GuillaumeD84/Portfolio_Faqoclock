@@ -1,0 +1,60 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: bcrypt
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        # in_memory:
+        #     memory: ~
+        user_db_provider:
+            entity:
+                class: AppBundle:User
+                property: username
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            # activate different ways to authenticate
+
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            pattern: ^/
+            # http_basic: ~
+            provider: user_db_provider
+
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            form_login:
+                login_path: login
+                check_path: login
+
+            logout:
+                path:   /logout
+                target: /
+
+            logout_on_user_change: true
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_MANAGER
+        ROLE_MANAGER: ROLE_USER
+
+    access_control:
+        # On authorise tout utilisateur à accéder à la page de login
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        # Les routes de création, d'édition et de suppression nécessite le rôle ADMIN
+        - { path: ^/admin/.+/(new|edit), roles: ROLE_ADMIN }
+        - { path: ^/admin/.+/\d+, roles: ROLE_ADMIN, methods: [DELETE] }
+
+        # Les routes permettant de lister et consulter les infos sur les différentes entités nécessite le rôle de manager
+        - { path: ^/admin, roles: ROLE_MANAGER }
+
+        # Création de questions/réponses restreinte aux utilisateurs inscrits
+        - { path: ^/question/new, roles: ROLE_USER }
+        - { path: ^/question/.+, roles: ROLE_USER, methods: [POST] }
